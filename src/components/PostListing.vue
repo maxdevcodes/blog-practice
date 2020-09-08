@@ -1,10 +1,10 @@
 <template>
-    <section>
+    <div>
         <div class="post" v-for="post in posts" :key="post.id">
             <h2 class="title">{{post.title}}</h2>
             <p class="summary">{{post.summary}}</p>
         </div>
-    </section>
+    </div>
 </template>
 
 <script>
@@ -49,9 +49,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-    padding: 30px;
-}
 
 .post {
     padding: 10px 0;

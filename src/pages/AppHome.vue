@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <section class="content">
         <post-listing></post-listing>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -15,4 +15,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>
