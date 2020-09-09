@@ -1,10 +1,7 @@
 <template>
     <div>
-        <div class="post" v-for="post in posts" :key="post.id">
-            <h2 class="title">{{post.title}}</h2>
-            <p class="summary">{{post.summary}}</p>
-            <router-link :to="'/post/' + post.id" tag="button" class="post-link">Read more</router-link>
-        </div>
+        <h1 class="title">{{posts[id].title}}</h1>
+        <p class="content">{{posts[id].content}}</p>
     </div>
 </template>
 
@@ -12,35 +9,36 @@
 export default {
     data() {
         return {
+            id: this.$route.params.id,
             posts: [
                 {
                     id: 0,
                     title: "Post #0",
-                    summary:
+                    content:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
                 },
                 {
                     id: 1,
                     title: "Post #1",
-                    summary:
+                    content:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
                 },
                 {
                     id: 2,
                     title: "Post #2",
-                    summary:
+                    content:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
                 },
                 {
                     id: 3,
                     title: "Post #3",
-                    summary:
+                    content:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
                 },
                 {
                     id: 4,
                     title: "Post #4",
-                    summary:
+                    content:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
                 },
             ],
@@ -50,27 +48,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.post {
-    padding: 10px 0;
+.title {
+    font-size: 32px;
     margin-bottom: 10px;
-    border-bottom: 1px solid rgb(66, 66, 66);
+}
 
-    .title {
-        margin-bottom: 10px;
-    }
-
-    .summary {
-        margin-bottom: 15px;
-    }
-
-    .post-link {
-        background: #41B883;
-        border-radius: 5px;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
+.content {
+    padding: 20px 0;
 }
 </style>

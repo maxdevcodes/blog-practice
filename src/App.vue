@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <app-header></app-header>
+        <!-- TODO: Refactor pages and components individual sections to a general section wrapping the router-view -->
         <router-view></router-view>
         <app-footer></app-footer>
     </div>
