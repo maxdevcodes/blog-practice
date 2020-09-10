@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1 class="title">{{posts[id].title}}</h1>
-        <p class="content">{{posts[id].content}}</p>
+        <h1 class="title">{{post.title}}</h1>
+        <p class="content">{{post.content}}</p>
     </div>
 </template>
 
@@ -9,40 +9,14 @@
 export default {
     data() {
         return {
-            id: this.$route.params.id,
-            posts: [
-                {
-                    id: 0,
-                    title: "Post #0",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 1,
-                    title: "Post #1",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 2,
-                    title: "Post #2",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 3,
-                    title: "Post #3",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 4,
-                    title: "Post #4",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-            ],
+            post: {},
         };
+    },
+    created() {
+        let promise = fetch("/api/posts/" + this.$route.params.id, { method: "GET" });
+        promise.then((response) => {
+            this.post = JSON.parse(response._bodyText);
+        });
     },
 };
 </script>

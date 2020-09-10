@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
 import routes from './Routes.vue'
+import server from '../backend/mockServer';
 
 Vue.use(VueRouter);
 

@@ -12,45 +12,19 @@
 export default {
     data() {
         return {
-            posts: [
-                {
-                    id: 0,
-                    title: "Post #0",
-                    summary:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 1,
-                    title: "Post #1",
-                    summary:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 2,
-                    title: "Post #2",
-                    summary:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 3,
-                    title: "Post #3",
-                    summary:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-                {
-                    id: 4,
-                    title: "Post #4",
-                    summary:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
-                },
-            ],
+            posts: [],
         };
+    },
+    created() {
+        let promise = fetch("/api/posts/");
+        promise.then((response) => {
+            this.posts = JSON.parse(response._bodyText);
+        });
     },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .post {
     padding: 10px 0;
     margin-bottom: 10px;
@@ -65,7 +39,7 @@ export default {
     }
 
     .post-link {
-        background: #41B883;
+        background: #41b883;
         border-radius: 5px;
         border: none;
         color: white;
