@@ -13,9 +13,11 @@ export default {
         };
     },
     created() {
-        let promise = fetch("/api/posts/" + this.$route.params.id, { method: "GET" });
-        promise.then((response) => {
-            this.post = JSON.parse(response._bodyText);
+        let promise = fetch("/api/posts/" + this.$route.params.id).then(function(response) {
+            return response.json();
+        });
+        promise.then((payload) => {
+            this.post = payload;
         });
     },
 };

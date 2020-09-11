@@ -16,9 +16,11 @@ export default {
         };
     },
     created() {
-        let promise = fetch("/api/posts/");
-        promise.then((response) => {
-            this.posts = JSON.parse(response._bodyText);
+        let promise = fetch("/api/posts/").then(function (response) {
+            return response.json();
+        });
+        promise.then((payload) => {
+            this.posts = payload;
         });
     },
 };
