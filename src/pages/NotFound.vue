@@ -1,7 +1,7 @@
 <template>
-    <section class="content">
+    <div>
         <h1>404, page not found</h1>
-    </section>
+    </div>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-    <section class="content">
+    <div>
         <post-listing></post-listing>
-    </section>
+    </div>
 </template>
 
 <script>

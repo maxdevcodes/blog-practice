@@ -1,5 +1,5 @@
 <template>
-    <section class="content">
+    <div>
         <form action="#">
             <label for="name">Name:</label>
             <input class="fullwidth-input" type="text" name="name" id="name">
@@ -7,7 +7,7 @@
             <textarea class="fullwidth-input" name="message" id="message" cols="30" rows="10"></textarea>
             <input type="submit" value="Send">
         </form>
-    </section>
+    </div>
 </template>
 
 <script>

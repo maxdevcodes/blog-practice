@@ -2,32 +2,33 @@
     <div id="app">
         <app-header></app-header>
         <!-- TODO: Refactor pages and components individual sections to a general section wrapping the router-view -->
-        <router-view></router-view>
+        <section class="content">
+            <router-view></router-view>
+        </section>
         <app-footer></app-footer>
     </div>
 </template>
 
 <script>
-import AppHeader from '@/layout/AppHeader.vue';
-import AppFooter from '@/layout/AppFooter.vue';
-import AppHome from '@/pages/AppHome.vue';
+import AppHeader from "@/layout/AppHeader.vue";
+import AppFooter from "@/layout/AppFooter.vue";
+import AppHome from "@/pages/AppHome.vue";
 
 export default {
     name: "app",
     data() {
-        return {
-        };
+        return {};
     },
     components: {
         AppHeader,
         AppFooter,
-        AppHome
+        AppHome,
     },
 };
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
 * {
     margin: 0;
     padding: 0;
@@ -35,16 +36,16 @@ export default {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
 a {
     text-decoration: none;
-    color: #41B883;
+    color: #41b883;
 }
 
 .highlighted {
-    color: #41B883;
+    color: #41b883;
 }
 
 section.content {

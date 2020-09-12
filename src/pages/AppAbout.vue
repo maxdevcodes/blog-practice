@@ -1,7 +1,7 @@
 <template>
-    <section class="content">
+    <div>
         <h1>This is an about page</h1>
-    </section>
+    </div>
 </template> 
 
 <script>
