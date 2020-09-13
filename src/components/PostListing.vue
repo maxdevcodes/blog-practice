@@ -5,6 +5,9 @@
             <p class="summary">{{post.summary}}</p>
             <router-link :to="'/post/' + post.id" tag="button" class="post-link">Read more</router-link>
         </div>
+        <div class="page-navigation" v-if="pages > 0">
+            <button v-for="page in pages" :key="page" @click="getPage(page-1)" class="page">{{page}}</button>
+        </div>
     </div>
 </template>
 
@@ -13,6 +16,7 @@ export default {
     data() {
         return {
             posts: [],
+            pages: 0,
         };
     },
     created() {
@@ -22,6 +26,25 @@ export default {
         promise.then((payload) => {
             this.posts = payload;
         });
+
+        fetch("/api/postsSize/")
+            .then(function (response) {
+                return response.json();
+            })
+            .then((payload) => {
+                this.pages = payload;
+            });
+    },
+    methods: {
+        getPage(page) {
+            fetch("/api/posts?page=" + page)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    this.posts = payload;
+                });
+        },
     },
 };
 </script>
@@ -47,6 +70,21 @@ export default {
         color: white;
         padding: 10px 15px;
         cursor: pointer;
+    }
+}
+
+.page-navigation {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+
+    .page {
+        background: #41b883;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        padding: 10px 14px;
+        margin-right: 5px;
     }
 }
 </style>
