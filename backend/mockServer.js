@@ -86,15 +86,18 @@ const server = new Pretender(function () {
         return [200, { "Content-Type": "application/json" }, payload];
     });
     this.get('/api/posts/', function (request) {
-        console.log("query", request.queryParams.page);
         const pageSize = 5;
         let queryPost;
-        if (request.queryParams.page) {
+        if (Number(request.queryParams.page)) {
             queryPost = posts.slice(pageSize * request.queryParams.page, (pageSize * request.queryParams.page) + 5);
         } else {
             queryPost = posts.slice(0, 5);
         }
         let payload = JSON.stringify(queryPost);
+        return [200, { "Content-Type": "application/json" }, payload];
+    });
+    this.get('/api/latestPosts/', function(request) {
+        let payload = JSON.stringify(posts.slice(0, 3));
         return [200, { "Content-Type": "application/json" }, payload];
     });
     this.get('/api/postsSize/', function (request) {
