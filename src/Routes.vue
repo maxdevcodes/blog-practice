@@ -7,7 +7,8 @@ import SinglePost from "@/components/SinglePost.vue";
 
 const routes = [
     { path: "*", component: NotFound },
-    { path: "/", component: AppHome },
+    // { path: "/", component: AppHome },
+    { path: "/blog", component: AppHome, query: { page: 0 } },
     { path: "/about", component: AppAbout },
     { path: "/contact", component: AppContact },
     { path: "/post/:id", component: SinglePost },

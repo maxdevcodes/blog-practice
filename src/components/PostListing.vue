@@ -6,7 +6,9 @@
             <router-link :to="'/post/' + post.id" tag="button" class="post-link">Read more</router-link>
         </div>
         <div class="page-navigation" v-if="pages > 0">
-            <button v-for="page in pages" :key="page" @click="getPage(page-1)" class="page">{{page}}</button>
+            <router-link v-for="page in pages" :key="page" :to="'/blog?page=' + page">
+                <button class="page" @click="getPage(page - 1)">{{page}}</button>
+            </router-link>
         </div>
     </div>
 </template>
@@ -20,9 +22,11 @@ export default {
         };
     },
     created() {
-        let promise = fetch("/api/posts/").then(function (response) {
-            return response.json();
-        });
+        let promise = fetch("/api/posts?page=" + this.$route.query.page).then(
+            function (response) {
+                return response.json();
+            }
+        );
         promise.then((payload) => {
             this.posts = payload;
         });
