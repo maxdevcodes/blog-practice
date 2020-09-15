@@ -27,7 +27,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fffae7;
+    background: #373430;
 }
 
 ul {
