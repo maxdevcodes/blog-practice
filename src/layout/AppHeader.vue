@@ -14,6 +14,7 @@
                 <router-link to="/contact">Contact</router-link>
             </li>
         </ul>
+        <router-link to="/admin" class="admin-btn">Admin</router-link>
     </header>
 </template>
 
@@ -39,5 +40,15 @@ li {
     margin: 0 10px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.admin-btn {
+    background: #41b883;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin-left: 15px;
 }
 </style>

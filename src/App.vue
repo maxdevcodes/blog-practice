@@ -53,5 +53,9 @@ section.content {
     justify-content: center;
     align-items: center;
     padding: 40px 60px;
+
+    & > div {
+        width: 100%;
+    }
 }
 </style>

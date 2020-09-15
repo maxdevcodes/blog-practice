@@ -22,6 +22,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    max-width: 500px;
 
     .fullwidth-input {
         width: 100%;
