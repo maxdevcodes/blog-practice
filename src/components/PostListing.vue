@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="blog">
         <div class="post" v-for="post in posts" :key="post.id">
             <h2 class="title">{{post.title}}</h2>
             <p class="summary">{{post.summary}}</p>
@@ -47,6 +47,7 @@ export default {
                 })
                 .then((payload) => {
                     this.posts = payload;
+                    window.scrollTo(0, 0);
                 });
         },
     },
