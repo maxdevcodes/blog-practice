@@ -96,6 +96,11 @@ const server = new Pretender(function () {
         let payload = JSON.stringify(queryPost);
         return [200, { "Content-Type": "application/json" }, payload];
     });
+    this.post('/api/post/', function (request) {
+        let post = {id: posts.length, ...JSON.parse(request.sendArguments[0])};
+        posts.push(post);
+        return [200, { "Content-Type": "application/json" }, "Post added"];
+    });
     this.get('/api/latestPosts/', function(request) {
         let payload = JSON.stringify(posts.slice(0, 3));
         return [200, { "Content-Type": "application/json" }, payload];
