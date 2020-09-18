@@ -97,11 +97,12 @@ const server = new Pretender(function () {
         return [200, { "Content-Type": "application/json" }, payload];
     });
     this.post('/api/post/', function (request) {
-        let post = {id: posts.length, ...JSON.parse(request.sendArguments[0])};
+        let post = { id: posts.length, ...JSON.parse(request.sendArguments[0]) };
         posts.push(post);
-        return [200, { "Content-Type": "application/json" }, "qwe"];
+        let response = { res: 'Added post titled: ' + post.title };
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
     });
-    this.get('/api/latestPosts/', function(request) {
+    this.get('/api/latestPosts/', function (request) {
         let payload = JSON.stringify(posts.slice(0, 3));
         return [200, { "Content-Type": "application/json" }, payload];
     });

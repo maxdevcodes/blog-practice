@@ -47,13 +47,10 @@ export default {
                 }),
             })
                 .then(function (response) {
-                    console.log("response", response);
                     return response.json();
-                    // TO-DO: Handle response for post success
                 })
                 .then((json) => {
-                    console.log("final:", json);
-                    this.response = json;
+                    this.response = json.res;
                 });
         },
     },
