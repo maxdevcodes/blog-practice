@@ -11,6 +11,12 @@
             <button class="btn" type="submit">Add</button>
         </form>
         <router-link to="/admin" class="link">Go back</router-link>
+        <div class="modal-container" v-if="response">
+            <div class="modal">
+                <p>{{response}}</p>
+                <router-link to="/admin" class="btn">Confirm</router-link>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -21,6 +27,7 @@ export default {
             title: null,
             summary: null,
             content: null,
+            response: null,
         };
     },
     methods: {
@@ -29,15 +36,25 @@ export default {
 
             fetch("/api/post", {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
                 body: JSON.stringify({
                     title: this.title,
                     summary: this.summary,
                     content: this.content,
                 }),
-            }).then(function (response) {
-                console.log("response", response);
-                // TO-DO: Handle response for post success
-            });
+            })
+                .then(function (response) {
+                    console.log("response", response);
+                    return response.json();
+                    // TO-DO: Handle response for post success
+                })
+                .then((json) => {
+                    console.log("final:", json);
+                    this.response = json;
+                });
         },
     },
 };
@@ -61,15 +78,39 @@ form {
         width: 100%;
         margin-bottom: 25px;
     }
+}
 
-    .btn {
-        background: #41b883;
-        border-radius: 5px;
-        border: none;
-        color: white;
-        cursor: pointer;
-        padding: 10px 15px;
-        margin: 0 auto;
+.btn {
+    background: #41b883;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 0 auto;
+}
+
+.modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.349);
+}
+
+.modal {
+    width: 250px;
+    height: 160px;
+    background: #fff;
+    text-align: center;
+    padding: 40px 30px;
+
+    p {
+        margin-bottom: 35px;
     }
 }
 </style>
