@@ -50,6 +50,7 @@ export default {
 
     .post {
         margin-right: 30px;
+        min-width: 30%;
 
         &:last-of-type {
             margin-right: 0;

@@ -17,6 +17,11 @@
                 <router-link to="/admin" class="btn">Confirm</router-link>
             </div>
         </div>
+        <div class="modal-container" v-if="isLoading">
+            <div class="modal">
+                <span class="loader"></span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -28,11 +33,12 @@ export default {
             summary: null,
             content: null,
             response: null,
+            isLoading: false,
         };
     },
     methods: {
         submitForm() {
-            console.log("form submitted", this.title);
+            this.isLoading = true;
 
             fetch("/api/post", {
                 method: "POST",
@@ -50,6 +56,7 @@ export default {
                     return response.json();
                 })
                 .then((json) => {
+                    this.isLoading = false;
                     this.response = json.res;
                 });
         },
@@ -88,7 +95,7 @@ form {
 }
 
 .modal-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -99,6 +106,30 @@ form {
     background: rgba(0, 0, 0, 0.349);
 }
 
+.loader {
+    &:after {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: #41b883;
+        border-radius: 100%;
+        animation: rotatingLoader 1s linear infinite;
+        transform-origin: 40px 40px;
+        position: relative;
+        left: -25px;
+    }
+}
+
+@keyframes rotatingLoader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .modal {
     width: 250px;
     height: 160px;
