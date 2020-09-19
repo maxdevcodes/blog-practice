@@ -87,11 +87,12 @@ const server = new Pretender(function () {
     });
     this.get('/api/posts/', function (request) {
         const pageSize = 5;
+        let reversedPosts = [...posts].reverse();
         let queryPost;
         if (Number(request.queryParams.page)) {
-            queryPost = posts.slice(pageSize * request.queryParams.page, (pageSize * request.queryParams.page) + 5);
+            queryPost = reversedPosts.slice(pageSize * request.queryParams.page, (pageSize * request.queryParams.page) + 5);
         } else {
-            queryPost = posts.slice(0, 5);
+            queryPost = reversedPosts.slice(0, 5);
         }
         let payload = JSON.stringify(queryPost);
         return [200, { "Content-Type": "application/json" }, payload];
@@ -103,7 +104,8 @@ const server = new Pretender(function () {
         return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
     });
     this.get('/api/latestPosts/', function (request) {
-        let payload = JSON.stringify(posts.slice(0, 3));
+        let reversedPosts = [...posts].reverse();
+        let payload = JSON.stringify(reversedPosts.slice(0, 3));
         return [200, { "Content-Type": "application/json" }, payload];
     });
     this.get('/api/postsSize/', function (request) {

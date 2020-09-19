@@ -47,6 +47,7 @@ export default {
                     return response.json();
                 })
                 .then((payload) => {
+                    console.log(payload);
                     this.posts = payload;
                     window.scrollTo(0, 0);
                 });
