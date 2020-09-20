@@ -1,0 +1,158 @@
+<template>
+    <div class="container">
+        <div class="post" v-for="post in posts" :key="post.id">
+            <h2 class="title">{{post.title}}</h2>
+            <p class="summary">{{post.summary}}</p>
+            <button class="btn" @click="editPost(post.id)">Edit</button>
+        </div>
+        <div class="modal-container" v-if="isSelected">
+            <div class="edit-modal">
+                <span class="close-btn" @click="cancelEdit"></span>
+                <form action="#">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" id="title" v-model="selectedPost.title" />
+                    <label for="summary">Summary:</label>
+                    <textarea
+                        name="summary"
+                        id="summary"
+                        cols="30"
+                        rows="5"
+                        v-model="selectedPost.summary"
+                    ></textarea>
+                    <label for="content">Content:</label>
+                    <textarea
+                        name="content"
+                        id="content"
+                        cols="30"
+                        rows="10"
+                        v-model="selectedPost.content"
+                    ></textarea>
+                    <button class="btn" @click.prevent="submitEdit" type="submit">Submit edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            posts: [],
+            selectedPost: {},
+            isSelected: false,
+        };
+    },
+    created() {
+        fetch("/api/posts/")
+            .then(function (response) {
+                return response.json();
+            })
+            .then((payload) => {
+                this.posts = payload;
+            });
+    },
+    methods: {
+        editPost(id) {
+            fetch("/api/posts/" + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    this.selectedPost = payload;
+                    this.isSelected = true;
+                });
+        },
+        cancelEdit() {
+            this.isSelected = false;
+            this.selectedPost = {};
+        },
+        submitEdit() {
+            // TO-DO handle the post fetch and create the mock endpoint
+        }
+    },
+};
+</script>
+
+<style lang="scss" scoped>
+.post {
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: #41b883;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 10px auto;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.349);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .edit-modal {
+        width: 500px;
+        background: #fff;
+        text-align: center;
+        padding: 40px 30px;
+        position: relative;
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            border: 1px solid #000;
+            border-radius: 100%;
+
+            &::after, &::before {
+                content: "";
+                display: inline-block;
+                width: 22px;
+                height: 2px;
+                background: #000;
+                transform: rotate(45deg);
+                position: absolute;
+                top: 13px;
+                left: 3px;
+            }
+
+            &::before {
+                transform: rotate(-45deg);
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 15px 0;
+
+            label {
+                margin-bottom: 5px;
+            }
+
+            input,
+            textarea {
+                width: 100%;
+                margin-bottom: 25px;
+            }
+        }
+    }
+}
+</style>
