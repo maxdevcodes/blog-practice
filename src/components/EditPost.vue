@@ -5,6 +5,11 @@
             <p class="summary">{{post.summary}}</p>
             <button class="btn" @click="editPost(post.id)">Edit</button>
         </div>
+        <div class="page-navigation" v-if="pages > 0">
+            <router-link v-for="page in pages" :key="page" :to="'/admin/editPost?page=' + page">
+                <button class="page" @click="getPage(page - 1)">{{page}}</button>
+            </router-link>
+        </div>
         <div class="modal-container" v-if="isSelected">
             <div class="edit-modal">
                 <span class="close-btn" @click="cancelEdit"></span>
@@ -39,17 +44,28 @@ export default {
     data() {
         return {
             posts: [],
+            pages: 0,
             selectedPost: {},
             isSelected: false,
         };
     },
     created() {
-        fetch("/api/posts/")
+        let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+        console.log(page);
+        fetch("/api/posts/?page=" + page)
             .then(function (response) {
                 return response.json();
             })
             .then((payload) => {
                 this.posts = payload;
+            });
+
+        fetch("/api/postsSize/")
+            .then(function (response) {
+                return response.json();
+            })
+            .then((payload) => {
+                this.pages = payload;
             });
     },
     methods: {
@@ -69,7 +85,16 @@ export default {
         },
         submitEdit() {
             // TO-DO handle the post fetch and create the mock endpoint
-        }
+        },
+        getPage(page) {
+            fetch("/api/posts/?page=" + page)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    this.posts = payload;
+                });
+        },
     },
 };
 </script>
@@ -118,7 +143,8 @@ export default {
             border: 1px solid #000;
             border-radius: 100%;
 
-            &::after, &::before {
+            &::after,
+            &::before {
                 content: "";
                 display: inline-block;
                 width: 22px;
@@ -153,6 +179,21 @@ export default {
                 margin-bottom: 25px;
             }
         }
+    }
+}
+
+.page-navigation {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+
+    .page {
+        background: #41b883;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        padding: 10px 14px;
+        margin-right: 5px;
     }
 }
 </style>

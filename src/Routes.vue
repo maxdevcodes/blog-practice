@@ -18,7 +18,7 @@ const routes = [
     { path: "/post/:id", component: SinglePost },
     { path: "/admin", component: AppAdminDashboard },
     { path: "/admin/addPost", component: AddPost },
-    { path: "/admin/editPost", component: EditPost}
+    { path: "/admin/editPost", component: EditPost }
 ];
 
 export default routes;
