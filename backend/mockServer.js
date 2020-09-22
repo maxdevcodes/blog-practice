@@ -103,6 +103,12 @@ const server = new Pretender(function () {
         let response = { res: 'Added post titled: ' + post.title };
         return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
     }, (Math.floor(Math.random() * 5) + 1) * 1000);
+    this.put('/api/post/', function (request) {
+        let post = JSON.parse(request.sendArguments[0]);
+        posts[post.id] = post;
+        let response = { res: 'Edited post' };
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
+    }, (Math.floor(Math.random() * 5) + 1) * 1000);
     this.get('/api/latestPosts/', function (request) {
         let reversedPosts = [...posts].reverse();
         let payload = JSON.stringify(reversedPosts.slice(0, 3));

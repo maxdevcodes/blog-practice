@@ -10,6 +10,9 @@
                 <button class="page" @click="getPage(page - 1)">{{page}}</button>
             </router-link>
         </div>
+        <div class="modal-container loader-container" v-if="isLoading">
+            <span class="loader"></span>
+        </div>
         <div class="modal-container" v-if="isSelected">
             <div class="edit-modal">
                 <span class="close-btn" @click="cancelEdit"></span>
@@ -47,11 +50,12 @@ export default {
             pages: 0,
             selectedPost: {},
             isSelected: false,
+            isLoading: false,
+            response: null,
         };
     },
     created() {
         let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
-        console.log(page);
         fetch("/api/posts/?page=" + page)
             .then(function (response) {
                 return response.json();
@@ -84,7 +88,20 @@ export default {
             this.selectedPost = {};
         },
         submitEdit() {
-            // TO-DO handle the post fetch and create the mock endpoint
+            this.isLoading = true;
+
+            fetch("/api/post/", { method: "PUT", body: JSON.stringify(this.selectedPost) }).then((response) => {
+
+                return response.json();
+            }).then((payload) => {
+                this.isLoading = false;
+                this.isSelected = false;
+                this.selectedPost = {};
+                this.response = payload.res;
+
+                let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+                this.getPage(page);
+            });
         },
         getPage(page) {
             fetch("/api/posts/?page=" + page)
@@ -195,5 +212,35 @@ export default {
         padding: 10px 14px;
         margin-right: 5px;
     }
+}
+
+.loader {
+    &:after {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: #41b883;
+        border-radius: 100%;
+        animation: rotatingLoader 1s linear infinite;
+        transform-origin: 40px 40px;
+        position: relative;
+        left: -25px;
+        z-index: 9999;
+    }
+}
+
+@keyframes rotatingLoader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader-container {
+    z-index: 9;
 }
 </style>
