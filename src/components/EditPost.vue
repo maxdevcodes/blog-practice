@@ -209,6 +209,7 @@ export default {
         border: none;
         border-radius: 4px;
         color: #fff;
+        cursor: pointer;
         padding: 10px 14px;
         margin-right: 5px;
     }

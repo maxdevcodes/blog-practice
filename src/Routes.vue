@@ -8,6 +8,7 @@ import SinglePost from "@/components/SinglePost.vue";
 import AppAdminDashboard from '@/pages/AppAdminDashboard.vue';
 import AddPost from '@/components/AddPost.vue';
 import EditPost from '@/components/EditPost.vue';
+import DeletePost from '@/components/DeletePost.vue';
 
 const routes = [
     { path: "*", component: NotFound },
@@ -18,7 +19,8 @@ const routes = [
     { path: "/post/:id", component: SinglePost },
     { path: "/admin", component: AppAdminDashboard },
     { path: "/admin/addPost", component: AddPost },
-    { path: "/admin/editPost", component: EditPost }
+    { path: "/admin/editPost", component: EditPost },
+    { path: "/admin/deletePost", component: DeletePost },
 ];
 
 export default routes;

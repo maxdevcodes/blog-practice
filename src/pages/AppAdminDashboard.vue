@@ -7,7 +7,9 @@
         <router-link to="/admin/editPost">
             <button class="button-link">Edit post</button>
         </router-link>
-        <button class="button-link">Delete post</button>
+        <router-link to="/admin/deletePost">
+            <button class="button-link">Delete post</button>
+        </router-link>
     </div>
 </template>
 
