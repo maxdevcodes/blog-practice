@@ -85,6 +85,14 @@ const server = new Pretender(function () {
         let payload = JSON.stringify(posts[request.params.id]);
         return [200, { "Content-Type": "application/json" }, payload];
     });
+    this.delete('/api/posts/:id', function (request) {
+        posts.splice(request.params.id, 1);
+        // To-do: this doesn't delete correctly, when the lenght is modified can get to the correct index
+        // use find instead of splice to fix this
+        console.log(posts);
+        let response = { res: 'Deleted post' };
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
+    });
     this.get('/api/posts/', function (request) {
         const pageSize = 5;
         let reversedPosts = [...posts].reverse();

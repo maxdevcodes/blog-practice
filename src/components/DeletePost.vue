@@ -94,8 +94,20 @@ export default {
             this.isSelected = false;
         },
         submitDelete() {
-            // To-do: create the delete endpoint and handle it 
-        }
+            this.isLoading = true;
+            
+            fetch("/api/posts/" + this.selectedPost.id, { method: "DELETE" })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    this.isLoading = false;
+                    this.selectedPost = {};
+                    this.isSelected = false;
+                    let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+                    this.getPage(page);
+                });
+        },
     },
 };
 </script>
