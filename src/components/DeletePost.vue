@@ -4,17 +4,11 @@
         <div class="post" v-for="post in posts" :key="post.id">
             <h2 class="title">{{ post.title }}</h2>
             <p class="summary">{{ post.summary }}</p>
-            <button class="btn" @click="deletePost(post.id)">Delete</button>
+            <button class="btn" @click="deletePost(post.id, post.title)">Delete</button>
         </div>
         <div class="page-navigation" v-if="pages > 0">
-            <router-link
-                v-for="page in pages"
-                :key="page"
-                :to="'/admin/deletePost?page=' + page"
-            >
-                <button class="page" @click="getPage(page - 1)">
-                    {{ page }}
-                </button>
+            <router-link v-for="page in pages" :key="page" :to="'/admin/deletePost?page=' + page">
+                <button class="page" @click="getPage(page - 1)">{{ page }}</button>
             </router-link>
         </div>
         <div class="modal-container loader-container" v-if="isLoading">
@@ -22,19 +16,9 @@
         </div>
         <div class="modal-container" v-if="isSelected">
             <div class="delete-modal">
-                <p>
-                    You are going to delete the post: {{ selectedPost.title }}
-                </p>
-                <button type="button" class="btn" @click="submitDelete">
-                    Delete
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    @click="cancelDelete"
-                >
-                    Cancel
-                </button>
+                <p>You are going to delete the post: {{ selectedPost.title }}</p>
+                <button type="button" class="btn" @click="submitDelete">Delete</button>
+                <button type="button" class="btn btn-secondary" @click="cancelDelete">Cancel</button>
             </div>
         </div>
     </div>
@@ -70,15 +54,9 @@ export default {
             });
     },
     methods: {
-        deletePost(id) {
-            fetch("/api/posts/" + id)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then((payload) => {
-                    this.selectedPost = payload;
-                    this.isSelected = true;
-                });
+        deletePost(id, title) {
+            this.selectedPost = { id, title };
+            this.isSelected = true;
         },
         getPage(page) {
             fetch("/api/posts?page=" + page)
@@ -95,7 +73,10 @@ export default {
         },
         submitDelete() {
             this.isLoading = true;
-            fetch("/api/posts/", { method: "DELETE", body: JSON.stringify(this.selectedPost.id) })
+            fetch("/api/posts/", {
+                method: "DELETE",
+                body: JSON.stringify(this.selectedPost.id),
+            })
                 .then(function (response) {
                     return response.json();
                 })
@@ -103,7 +84,10 @@ export default {
                     this.isLoading = false;
                     this.selectedPost = {};
                     this.isSelected = false;
-                    let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+                    let page =
+                        this.$route.query.page <= 1
+                            ? 0
+                            : this.$route.query.page - 1;
                     this.getPage(page);
                 });
         },
