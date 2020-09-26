@@ -1,6 +1,6 @@
 import Pretender from 'pretender';
 
-const posts = [
+var posts = [
     {
         id: 0,
         title: "Post #0",
@@ -82,16 +82,20 @@ const posts = [
 
 const server = new Pretender(function () {
     this.get('/api/posts/:id', function (request) {
-        let payload = JSON.stringify(posts[request.params.id]);
+        const index = posts.findIndex(function (elem, index) {
+            return elem.id == request.params.id ? index : false;
+        });
+        let payload = JSON.stringify(posts[index]);
         return [200, { "Content-Type": "application/json" }, payload];
     });
-    this.delete('/api/posts/:id', function (request) {
-        posts.splice(request.params.id, 1);
-        // To-do: this doesn't delete correctly, when the lenght is modified can get to the correct index
-        // use find instead of splice to fix this
-        console.log(posts);
+    this.delete('/api/posts/', function (request) {
+        const index = posts.findIndex(function(elem, index) {
+            return elem.id == request.requestBody ? index : false;
+        });
+        posts.splice(index, 1);
         let response = { res: 'Deleted post' };
-        return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
+        return [200, { "Content-Type": "application/json", "Access-Control-Allow-Origin" : "*", 
+        "Access-Control-Allow-Credentials" : true  }, JSON.stringify(response)];
     });
     this.get('/api/posts/', function (request) {
         const pageSize = 5;

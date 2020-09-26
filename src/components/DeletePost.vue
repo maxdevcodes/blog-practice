@@ -95,8 +95,7 @@ export default {
         },
         submitDelete() {
             this.isLoading = true;
-            
-            fetch("/api/posts/" + this.selectedPost.id, { method: "DELETE" })
+            fetch("/api/posts/", { method: "DELETE", body: JSON.stringify(this.selectedPost.id) })
                 .then(function (response) {
                     return response.json();
                 })
