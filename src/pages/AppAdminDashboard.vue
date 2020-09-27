@@ -10,11 +10,20 @@
         <router-link to="/admin/deletePost">
             <button class="button-link">Delete post</button>
         </router-link>
+        <router-link to="/login">
+            <button @click="logout" class="button-link">Logout</button>
+        </router-link>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        logout() {
+            localStorage.removeItem("mockJWT");
+        }
+    },
+};
 </script>
 
 <style lang="scss" scoped>

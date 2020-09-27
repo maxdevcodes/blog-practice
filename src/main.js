@@ -8,6 +8,18 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({routes});
 
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.isAuth)) {
+        if (!localStorage.getItem("mockJWT")) {
+            next({path: "/login", query: { redirect: to.fullPath }})
+        }else {
+            next();
+        }
+    }else {
+        next();
+    }
+});
+
 const app = new Vue({
     name: "app",
     router,
