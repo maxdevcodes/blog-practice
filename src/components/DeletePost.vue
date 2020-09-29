@@ -6,6 +6,7 @@
             <p class="summary">{{ post.summary }}</p>
             <button class="btn" @click="deletePost(post.id, post.title)">Delete</button>
         </div>
+        <router-link to="/admin" class="link">Go back</router-link>
         <div class="page-navigation" v-if="pages > 0">
             <router-link v-for="page in pages" :key="page" :to="'/admin/deletePost?page=' + page">
                 <button class="page" @click="getPage(page - 1)">{{ page }}</button>
