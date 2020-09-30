@@ -37,6 +37,7 @@ export default {
 
 body {
     font-family: "Open Sans", sans-serif;
+    background: rgb(241, 241, 241);
 }
 
 a {
