@@ -30,6 +30,7 @@ export default {
     data() {
         return {
             post: {},
+            comments: [],
         };
     },
     created() {
@@ -40,7 +41,19 @@ export default {
         );
         promise.then((payload) => {
             this.post = payload;
+            this.fetchComments();
         });
+    },
+    methods: {
+        fetchComments() {
+            fetch("/api/comments/" + this.post.id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    this.comments = payload;
+                });
+        },
     },
 };
 </script>

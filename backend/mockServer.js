@@ -78,6 +78,30 @@ var posts = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec purus quis justo tempus malesuada fermentum vitae ex. Aenean sollicitudin tristique urna, quis tincidunt purus faucibus sed. Donec egestas libero a luctus sodales. Integer non tempus mi. Morbi justo purus, gravida sit amet justo non, gravida tempor sapien. Sed vitae metus sit amet quam ultrices blandit. Cras lobortis ipsum quam. Vivamus non malesuada erat. Pellentesque iaculis purus enim, vitae rhoncus mi posuere sit amet. Vivamus fringilla elit vitae sapien pellentesque, vel faucibus justo scelerisque. Vivamus feugiat, erat eget volutpat rutrum, tellus metus scelerisque lorem, eu blandit tortor nunc vel tellus."
     },
+];
+
+var comments = [
+    {
+        id: 0,
+        postID: 10,
+        author: "John",
+        comment: "lorem",
+        replyID: null,
+    },
+    {
+        id: 1,
+        postID: 10,
+        author: "Anna",
+        comment: "lorem",
+        replyID: null,
+    },
+    {
+        id: 2,
+        postID: 10,
+        author: "Paul",
+        comment: "lorem",
+        replyID: 0,
+    },
 ]
 
 const server = new Pretender(function () {
@@ -128,6 +152,11 @@ const server = new Pretender(function () {
     });
     this.get('/api/postsSize/', function (request) {
         let payload = JSON.stringify(Math.ceil(posts.length / 5));
+        return [200, { "Content-Type": "application/json" }, payload];
+    });
+    this.get('/api/comments/:postId', function (request) {
+        let postID = request.params.postId;
+        let payload = JSON.stringify(comments.filter(element => {return element.postID == postID ? element : false;}));
         return [200, { "Content-Type": "application/json" }, payload];
     });
 });
