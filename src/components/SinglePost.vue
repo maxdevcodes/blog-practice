@@ -5,21 +5,9 @@
             <p class="content">{{ post.content }}</p>
         </div>
         <div class="comments-container">
-            <div class="comment">
-                <span class="comment-author">Author</span>
-                <p class="comment-content">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Ipsum rerum architecto accusamus nobis. Ea libero voluptatem
-                    quidem et totam aliquam!
-                </p>
-            </div>
-            <div class="comment">
-                <span class="comment-author">Author</span>
-                <p class="comment-content">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Ipsum rerum architecto accusamus nobis. Ea libero voluptatem
-                    quidem et totam aliquam!
-                </p>
+            <div :class="['comment', isChild(comment) ? 'child-comment' : '' ]" v-for="comment in comments" :key="comment.id">
+                <span class="comment-author">{{ comment.author }}</span>
+                <p class="comment-content">{{ comment.comment }}</p>
             </div>
         </div>
     </div>
@@ -54,6 +42,9 @@ export default {
                     this.comments = payload;
                 });
         },
+        isChild(comment) {
+            return comment.replyID != null ? true : false;
+        }
     },
 };
 </script>
