@@ -5,9 +5,13 @@
             <p class="content">{{ post.content }}</p>
         </div>
         <div class="comments-container">
-            <div :class="['comment', isChild(comment) ? 'child-comment' : '' ]" v-for="comment in comments" :key="comment.id">
+            <div class="comment" v-for="comment in comments" :key="comment.id">
                 <span class="comment-author">{{ comment.author }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
+                <div class="child-comment" v-for="comment in commentsChildren" :key="comment.id">
+                <span class="comment-author">{{ comment.author }}</span>
+                <p class="comment-content">{{ comment.comment }}</p>
+            </div>
             </div>
         </div>
     </div>
@@ -19,6 +23,7 @@ export default {
         return {
             post: {},
             comments: [],
+            commentsChildren: [],
         };
     },
     created() {
@@ -39,7 +44,13 @@ export default {
                     return response.json();
                 })
                 .then((payload) => {
-                    this.comments = payload;
+                    this.comments = payload.filter(comment => {
+                        return comment.replyID == null ? comment : false;
+                    });
+
+                    this.commentsChildren = payload.filter(comment => {
+                        return comment.replyID != null ? comment : false;
+                    });
                 });
         },
         isChild(comment) {
