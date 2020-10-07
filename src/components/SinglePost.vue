@@ -8,10 +8,14 @@
             <div class="comment" v-for="comment in comments" :key="comment.id">
                 <span class="comment-author">{{ comment.author }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
-                <div class="child-comment" v-for="comment in commentsChildren" :key="comment.id">
-                <span class="comment-author">{{ comment.author }}</span>
-                <p class="comment-content">{{ comment.comment }}</p>
-            </div>
+                <div
+                    class="child-comment"
+                    v-for="child in comment.children"
+                    :key="child.id"
+                >
+                    <span class="comment-author">{{ child.author }}</span>
+                    <p class="comment-content">{{ child.comment }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -23,7 +27,6 @@ export default {
         return {
             post: {},
             comments: [],
-            commentsChildren: [],
         };
     },
     created() {
@@ -44,18 +47,20 @@ export default {
                     return response.json();
                 })
                 .then((payload) => {
-                    this.comments = payload.filter(comment => {
+                    this.comments = payload.filter((comment) => {
                         return comment.replyID == null ? comment : false;
                     });
 
-                    this.commentsChildren = payload.filter(comment => {
-                        return comment.replyID != null ? comment : false;
+                    this.comments.forEach((comment) => {
+                        comment.children = payload.filter(function(child) {
+                            return child.replyID == comment.id ? child : false;
+                        }, comment);
                     });
                 });
         },
         isChild(comment) {
             return comment.replyID != null ? true : false;
-        }
+        },
     },
 };
 </script>
