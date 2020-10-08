@@ -102,6 +102,13 @@ var comments = [
         comment: "Lorem ipsum dolor sit amet",
         replyID: 0,
     },
+    {
+        id: 3,
+        postID: 10,
+        author: "Laura",
+        comment: "Lorem ipsum dolor sit amet",
+        replyID: 0,
+    },
 ]
 
 const server = new Pretender(function () {

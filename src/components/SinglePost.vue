@@ -52,7 +52,7 @@ export default {
                     });
 
                     this.comments.forEach((comment) => {
-                        comment.children = payload.filter(function(child) {
+                        comment.children = payload.filter(function (child) {
                             return child.replyID == comment.id ? child : false;
                         }, comment);
                     });
@@ -97,6 +97,18 @@ export default {
     &:last-of-type {
         border-bottom: none;
         margin-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
+.child-comment {
+    margin-top: 30px;
+    margin-left: 30px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid #000;
+
+    &:last-of-type {
+        border-bottom: none;
         padding-bottom: 0;
     }
 }
