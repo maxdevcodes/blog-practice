@@ -17,6 +17,18 @@
                     <p class="comment-content">{{ child.comment }}</p>
                 </div>
             </div>
+            <form class="add-comment-form" action="#">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" />
+                <label for="comment">Comment:</label>
+                <textarea
+                    name="comment"
+                    id="comment"
+                    cols="30"
+                    rows="10"
+                ></textarea>
+                <button class="btn" type="button">Post comment</button>
+            </form>
         </div>
     </div>
 </template>
@@ -117,5 +129,22 @@ export default {
     display: inline-block;
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.btn {
+    background: #41b883;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 10px auto;
+}
+
+.add-comment-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    margin-top: 20px;
 }
 </style>
