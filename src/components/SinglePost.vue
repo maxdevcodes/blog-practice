@@ -19,15 +19,16 @@
             </div>
             <form class="add-comment-form" action="#">
                 <label for="name">Name:</label>
-                <input type="text" name="name" id="name" />
+                <input type="text" name="name" id="name" v-model="newComment.name"/>
                 <label for="comment">Comment:</label>
                 <textarea
                     name="comment"
                     id="comment"
                     cols="30"
                     rows="10"
+                    v-model="newComment.comment"
                 ></textarea>
-                <button class="btn" type="button">Post comment</button>
+                <button class="btn" type="button" @click="postComment()">Post comment</button>
             </form>
         </div>
     </div>
@@ -39,6 +40,7 @@ export default {
         return {
             post: {},
             comments: [],
+            newComment: {},
         };
     },
     created() {
@@ -73,6 +75,17 @@ export default {
         isChild(comment) {
             return comment.replyID != null ? true : false;
         },
+        postComment() {
+            this.newComment.postID = this.post.id;
+            this.newComment.replyID = null;
+            fetch("/api/comments/", {method: "POST", body: JSON.stringify(this.newComment)}).then(function(response) {
+                return response.json();
+            }).then((payload) => {
+                console.log("response", payload);
+                this.newComment = {};
+                this.fetchComments();
+            });
+        }
     },
 };
 </script>

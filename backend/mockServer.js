@@ -166,6 +166,19 @@ const server = new Pretender(function () {
         let payload = JSON.stringify(comments.filter(element => {return element.postID == postID ? element : false;}));
         return [200, { "Content-Type": "application/json" }, payload];
     });
+    this.post('/api/comments/', function(request) {
+        let body = JSON.parse(request.requestBody);
+        let newComment = {
+            id: comments.length,
+            postID: body.postID,
+            author: body.name,
+            comment: body.comment,
+            replyID: null,
+        };
+        comments.push(newComment);
+        let response = { res: 'Added comment' };
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
+    });
 });
 
 export default server;
