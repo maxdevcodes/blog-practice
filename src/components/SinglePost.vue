@@ -8,6 +8,9 @@
             <div class="comment" v-for="comment in comments" :key="comment.id">
                 <span class="comment-author">{{ comment.author }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
+                <div class="comment-buttons">
+                    <button class="simple-btn">Reply</button>
+                </div>
                 <div
                     class="child-comment"
                     v-for="child in comment.children"
@@ -15,11 +18,19 @@
                 >
                     <span class="comment-author">{{ child.author }}</span>
                     <p class="comment-content">{{ child.comment }}</p>
+                    <div class="comment-buttons">
+                        <button class="simple-btn">Reply</button>
+                    </div>
                 </div>
             </div>
             <form class="add-comment-form" action="#">
                 <label for="name">Name:</label>
-                <input type="text" name="name" id="name" v-model="newComment.name"/>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    v-model="newComment.name"
+                />
                 <label for="comment">Comment:</label>
                 <textarea
                     name="comment"
@@ -28,7 +39,9 @@
                     rows="10"
                     v-model="newComment.comment"
                 ></textarea>
-                <button class="btn" type="button" @click="postComment()">Post comment</button>
+                <button class="btn" type="button" @click="postComment()">
+                    Post comment
+                </button>
             </form>
         </div>
     </div>
@@ -78,14 +91,19 @@ export default {
         postComment() {
             this.newComment.postID = this.post.id;
             this.newComment.replyID = null;
-            fetch("/api/comments/", {method: "POST", body: JSON.stringify(this.newComment)}).then(function(response) {
-                return response.json();
-            }).then((payload) => {
-                console.log("response", payload);
-                this.newComment = {};
-                this.fetchComments();
-            });
-        }
+            fetch("/api/comments/", {
+                method: "POST",
+                body: JSON.stringify(this.newComment),
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((payload) => {
+                    console.log("response", payload);
+                    this.newComment = {};
+                    this.fetchComments();
+                });
+        },
     },
 };
 </script>
@@ -124,6 +142,17 @@ export default {
         margin-bottom: 0;
         padding-bottom: 0;
     }
+}
+
+.comment-buttons {
+    display: flex;
+    margin-top: 10px;
+}
+
+.simple-btn {
+    background: none;
+    border: none;
+    color: #25835a;
 }
 
 .child-comment {
