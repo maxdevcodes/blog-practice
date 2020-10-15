@@ -173,7 +173,7 @@ const server = new Pretender(function () {
             postID: body.postID,
             author: body.name,
             comment: body.comment,
-            replyID: null,
+            replyID: body.replyID,
         };
         comments.push(newComment);
         let response = { res: 'Added comment' };

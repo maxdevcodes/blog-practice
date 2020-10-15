@@ -9,7 +9,7 @@
                 <span class="comment-author">{{ comment.author }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
                 <div class="comment-buttons">
-                    <button class="simple-btn">Reply</button>
+                    <button class="simple-btn" @click="replyComment(comment.id)">Reply</button>
                 </div>
                 <div
                     class="child-comment"
@@ -19,11 +19,12 @@
                     <span class="comment-author">{{ child.author }}</span>
                     <p class="comment-content">{{ child.comment }}</p>
                     <div class="comment-buttons">
-                        <button class="simple-btn">Reply</button>
+                        <button class="simple-btn" @click="replyComment(comment.id)">Reply</button>
                     </div>
                 </div>
             </div>
-            <form class="add-comment-form" action="#">
+            <form class="add-comment-form" id="comment-form" action="#">
+                <!-- TO-DO: add reply to HTML elem to indicate reply (maybe add extract of comment) -->
                 <label for="name">Name:</label>
                 <input
                     type="text"
@@ -90,7 +91,10 @@ export default {
         },
         postComment() {
             this.newComment.postID = this.post.id;
-            this.newComment.replyID = null;
+            if (!this.newComment.hasOwnProperty('replyID')) {
+                this.newComment.replyID = null;
+            }
+            
             fetch("/api/comments/", {
                 method: "POST",
                 body: JSON.stringify(this.newComment),
@@ -104,6 +108,10 @@ export default {
                     this.fetchComments();
                 });
         },
+        replyComment(parentID) {
+            this.newComment.replyID = parentID;
+            document.getElementById('comment-form').scrollIntoView();
+        }
     },
 };
 </script>
