@@ -16,10 +16,11 @@
                     v-for="child in comment.children"
                     :key="child.id"
                 >
+                    <span class="comment-response">In response to <strong>{{getParent(child)}}</strong></span>
                     <span class="comment-author">{{ child.author }}</span>
                     <p class="comment-content">{{ child.comment }}</p>
                     <div class="comment-buttons">
-                        <button class="simple-btn" @click="replyComment(comment.id)">Reply</button>
+                        <button class="simple-btn" @click="replyComment(child.id)">Reply</button>
                     </div>
                 </div>
             </div>
@@ -69,6 +70,12 @@ export default {
         });
     },
     methods: {
+        getParent(child) {
+            var parent = this.comments.find(elem=>{
+                return (elem.id == child.replyID ? elem : false)
+            });
+            return parent.author;
+        },
         fetchComments() {
             fetch("/api/comments/" + this.post.id)
                 .then(function (response) {
@@ -79,12 +86,16 @@ export default {
                         return comment.replyID == null ? comment : false;
                     });
 
-                    this.comments.forEach((comment) => {
-                        comment.children = payload.filter(function (child) {
-                            return child.replyID == comment.id ? child : false;
-                        }, comment);
-                    });
+                    populateChildren(this.comments, payload);
                 });
+            function populateChildren(commentsArray, rawArray) {
+                commentsArray.forEach(comment => {
+                    comment.children = rawArray.filter(function (child) {
+                        return child.replyID == comment.id ? child : false;
+                    }, comment);
+                    populateChildren(comment.children, rawArray);
+                });
+            };
         },
         isChild(comment) {
             return comment.replyID != null ? true : false;
@@ -196,5 +207,11 @@ export default {
     flex-direction: column;
     padding: 20px 0;
     margin-top: 20px;
+}
+
+.comment-response {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 10px;
 }
 </style>
