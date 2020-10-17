@@ -86,16 +86,16 @@ export default {
                         return comment.replyID == null ? comment : false;
                     });
 
-                    populateChildren(this.comments, payload);
+                    this.populateChildren(this.comments, payload);
                 });
-            function populateChildren(commentsArray, rawArray) {
+        },
+        populateChildren(commentsArray, rawArray) {
                 commentsArray.forEach(comment => {
                     comment.children = rawArray.filter(function (child) {
                         return child.replyID == comment.id ? child : false;
                     }, comment);
-                    populateChildren(comment.children, rawArray);
+                    this.populateChildren(comment.children, rawArray);
                 });
-            };
         },
         isChild(comment) {
             return comment.replyID != null ? true : false;
