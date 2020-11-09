@@ -2,7 +2,13 @@
     <div class="single-post">
         <div class="post-container">
             <h1 class="title">{{ post.title }}</h1>
-            <p class="content">{{ post.content }}</p>
+            <div class="content">
+                <p>{{ post.content }}</p>
+            </div>
+            <div class="post-tags">
+                <a href="#" class="post-tag">Tag #1</a>
+                <a href="#" class="post-tag">Tag #2</a>
+            </div>
         </div>
         <div class="comments-container">
             <div class="comment" v-for="comment in comments" :key="comment.id">
