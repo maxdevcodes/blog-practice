@@ -109,7 +109,20 @@ var comments = [
         comment: "Lorem ipsum dolor sit amet",
         replyID: 0,
     },
-]
+];
+
+var tags = [
+    {
+        id: 0,
+        name: 'Tag #1',
+        path: 'tag-1'
+    },
+    {
+        id: 1,
+        name: 'Tag #2',
+        path: 'tag-2'
+    }
+];
 
 const server = new Pretender(function () {
     this.get('/api/posts/:id', function (request) {
