@@ -128,7 +128,7 @@ var tags = [
 const server = new Pretender(function () {
     this.get('/api/posts/:id', function (request) {
         const index = posts.findIndex(function (elem, index) {
-            return elem.id == request.params.id ? index : false;
+            return elem.id == request.params.id ? true : false;
         });
         let payload = JSON.stringify(posts[index]);
         return [200, { "Content-Type": "application/json" }, payload];
@@ -193,10 +193,13 @@ const server = new Pretender(function () {
         let response = { res: 'Added comment' };
         return [200, { "Content-Type": "application/json" }, JSON.stringify(response)];
     });
-    this.get('/api/tags/', function (request) {
-        let tagIds = request.params.tagIds;
-        let payload = JSON.stringify(tags.filter(element => {return element.id == tagIds ? element : false;}));
-        return [200, { "Content-Type": "application/json" }, payload];
+    this.get('/api/tags/:tags', function (request) {
+        let tagIds = JSON.parse(request.params.tags);
+        let payload = [];
+        tagIds.forEach(tagId => {
+            payload.push(tags.find(element => {return element.id == tagId ? element : false;}));
+        });
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(payload)];
     });
 });
 

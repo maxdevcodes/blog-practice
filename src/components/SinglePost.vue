@@ -62,6 +62,7 @@ export default {
             post: {},
             comments: [],
             newComment: {},
+            tags: [],
         };
     },
     created() {
@@ -73,6 +74,7 @@ export default {
         promise.then((payload) => {
             this.post = payload;
             this.fetchComments();
+            this.fetchTags();
         });
     },
     methods: {
@@ -94,6 +96,15 @@ export default {
 
                     this.populateChildren(this.comments, payload);
                 });
+        },
+        fetchTags() {
+            fetch("/api/tags/" + JSON.stringify(this.post.tags)).then(
+                function (response) {
+                    return response.json();
+                }
+            ).then((payload) => {
+                this.tags = payload;
+            });
         },
         populateChildren(commentsArray, rawArray) {
                 commentsArray.forEach(comment => {
