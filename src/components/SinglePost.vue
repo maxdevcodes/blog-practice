@@ -6,7 +6,7 @@
                 <p>{{ post.content }}</p>
             </div>
             <div class="post-tags">
-                <a :href="tag.path" class="post-tag" v-for="tag in tags" :key="tag.id">{{tag.name}}</a>
+                <router-link :to="'/' + tag.path" class="post-tag" v-for="tag in tags" :key="tag.id">{{tag.name}}</router-link>
             </div>
         </div>
         <div class="comments-container">
