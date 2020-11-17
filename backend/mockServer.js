@@ -201,6 +201,13 @@ const server = new Pretender(function () {
         });
         return [200, { "Content-Type": "application/json" }, JSON.stringify(payload)];
     });
+    this.get('/api/tags/posts/:tag', function (request) {
+        let tagId = JSON.parse(request.queryParams.tag);
+        let payload = posts.filter(element => {
+            return element.tags.find(tag => tag == tagId);
+        });
+        return [200, { "Content-Type": "application/json" }, JSON.stringify(payload)];
+    });
 });
 
 export default server;
