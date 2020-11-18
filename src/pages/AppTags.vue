@@ -29,7 +29,14 @@ export default {
         }
     },
     created () {
-        // get posts from tags endpoint
+        console.log(this.$route.params.tag);
+        fetch('/api/tags/posts/' + this.$route.params.tag)
+        .then( function(response) {
+            return response.json();
+        })
+        .then((payload) => {
+            this.posts = payload;
+        });
     },
     methods: {
         getPage(page) {

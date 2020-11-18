@@ -24,7 +24,7 @@ const routes = [
     { path: "/admin/addPost", component: AddPost, meta: { isAuth: true } },
     { path: "/admin/editPost", component: EditPost },
     { path: "/admin/deletePost", component: DeletePost },
-    { path: "/tags/:tag", component: AppTags },
+    { path: "/tags/:tag", component: AppTags , query: { tag: '' } },
 ];
 
 export default routes;
