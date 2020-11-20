@@ -47,4 +47,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.post {
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgb(66, 66, 66);
+
+    .title {
+        margin-bottom: 10px;
+    }
+
+    .summary {
+        margin-bottom: 15px;
+    }
+
+    .post-link {
+        background: #41b883;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+}
 </style>
