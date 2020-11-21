@@ -29,13 +29,21 @@ export default {
         }
     },
     created () {
-        console.log(this.$route.params.tag);
-        fetch('/api/tags/posts/' + this.$route.params.tag)
+        let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+        fetch('/api/tags/posts/' + this.$route.params.tag + '?page=' + page)
         .then( function(response) {
             return response.json();
         })
         .then((payload) => {
             this.posts = payload;
+        });
+
+        fetch('/api/tagSize/'  + this.$route.params.tag)
+        .then(function (response) {
+            return response.json();
+        })
+        .then((payload) => {
+            this.pages = payload;
         });
     },
     methods: {

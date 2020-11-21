@@ -31,6 +31,7 @@ var posts = [
         summary:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec purus quis justo tempus malesuada fermentum vitae ex. Aenean sollicitudin tristique urna, quis tincidunt purus faucibus sed. Donec egestas libero a luctus sodales. Integer non tempus mi. Morbi justo purus, gravida sit amet justo non, gravida tempor sapien. Sed vitae metus sit amet quam ultrices blandit. Cras lobortis ipsum quam. Vivamus non malesuada erat. Pellentesque iaculis purus enim, vitae rhoncus mi posuere sit amet. Vivamus fringilla elit vitae sapien pellentesque, vel faucibus justo scelerisque. Vivamus feugiat, erat eget volutpat rutrum, tellus metus scelerisque lorem, eu blandit tortor nunc vel tellus.",
+        tags: [0,1],
     },
     {
         id: 4,
@@ -38,6 +39,7 @@ var posts = [
         summary:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec purus quis justo tempus malesuada fermentum vitae ex. Aenean sollicitudin tristique urna, quis tincidunt purus faucibus sed. Donec egestas libero a luctus sodales. Integer non tempus mi. Morbi justo purus, gravida sit amet justo non, gravida tempor sapien. Sed vitae metus sit amet quam ultrices blandit. Cras lobortis ipsum quam. Vivamus non malesuada erat. Pellentesque iaculis purus enim, vitae rhoncus mi posuere sit amet. Vivamus fringilla elit vitae sapien pellentesque, vel faucibus justo scelerisque. Vivamus feugiat, erat eget volutpat rutrum, tellus metus scelerisque lorem, eu blandit tortor nunc vel tellus.",
+        tags: [0],
     },
     {
         id: 5,
@@ -45,6 +47,7 @@ var posts = [
         summary:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec purus quis justo tempus malesuada fermentum vitae ex. Aenean sollicitudin tristique urna, quis tincidunt purus faucibus sed. Donec egestas libero a luctus sodales. Integer non tempus mi. Morbi justo purus, gravida sit amet justo non, gravida tempor sapien. Sed vitae metus sit amet quam ultrices blandit. Cras lobortis ipsum quam. Vivamus non malesuada erat. Pellentesque iaculis purus enim, vitae rhoncus mi posuere sit amet. Vivamus fringilla elit vitae sapien pellentesque, vel faucibus justo scelerisque. Vivamus feugiat, erat eget volutpat rutrum, tellus metus scelerisque lorem, eu blandit tortor nunc vel tellus.",
+        tags: [0,1],
     },
     {
         id: 6,
@@ -52,6 +55,7 @@ var posts = [
         summary:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices rutrum dui, vitae finibus nisi interdum sit amet.",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec purus quis justo tempus malesuada fermentum vitae ex. Aenean sollicitudin tristique urna, quis tincidunt purus faucibus sed. Donec egestas libero a luctus sodales. Integer non tempus mi. Morbi justo purus, gravida sit amet justo non, gravida tempor sapien. Sed vitae metus sit amet quam ultrices blandit. Cras lobortis ipsum quam. Vivamus non malesuada erat. Pellentesque iaculis purus enim, vitae rhoncus mi posuere sit amet. Vivamus fringilla elit vitae sapien pellentesque, vel faucibus justo scelerisque. Vivamus feugiat, erat eget volutpat rutrum, tellus metus scelerisque lorem, eu blandit tortor nunc vel tellus.",
+        tags: [0],
     },
     {
         id: 7,
@@ -204,14 +208,32 @@ const server = new Pretender(function () {
         return [200, { "Content-Type": "application/json" }, JSON.stringify(payload)];
     });
     this.get('/api/tags/posts/:tag', function (request) {
+        const pageSize = 5;
         let tagPath = request.params.tag;
         let currentTag = tags.find(tag => {
             return tag.path == tagPath;
         });
-        let payload = posts.filter(element => {
+        let queryPosts = posts.filter(element => {
             return element.hasOwnProperty("tags") && element.tags.includes(currentTag.id);
         });
+        let payload;
+        if (Number(request.queryParams.page)) {
+            payload = queryPosts.slice(pageSize * request.queryParams.page, (pageSize * request.queryParams.page) + pageSize);
+        } else {
+            payload = queryPosts.slice(0, pageSize);
+        }
         return [200, { "Content-Type": "application/json" }, JSON.stringify(payload)];
+    });
+    this.get('/api/tagSize/:tag', function (request) {
+        let tagPath = request.params.tag;
+        let currentTag = tags.find(tag => {
+            return tag.path == tagPath;
+        });
+        let queryPosts = posts.filter(element => {
+            return element.hasOwnProperty("tags") && element.tags.includes(currentTag.id);
+        });
+        let payload = JSON.stringify(Math.ceil(queryPosts.length / 5));
+        return [200, { "Content-Type": "application/json" }, payload];
     });
 });
 

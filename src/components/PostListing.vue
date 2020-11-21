@@ -22,7 +22,11 @@ export default {
         };
     },
     created() {
+        console.log(this.$route);
+
         let page = this.$route.query.page <= 1 ? 0 : this.$route.query.page - 1;
+        console.log("page", page);
+
         let promise = fetch("/api/posts?page=" + page).then(
             function (response) {
                 return response.json();
