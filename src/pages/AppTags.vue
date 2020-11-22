@@ -77,4 +77,19 @@ export default {
         cursor: pointer;
     }
 }
+
+.page-navigation {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+
+    .page {
+        background: #41b883;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        padding: 10px 14px;
+        margin-right: 5px;
+    }
+}
 </style>
