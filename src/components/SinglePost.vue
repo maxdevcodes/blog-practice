@@ -97,13 +97,15 @@ export default {
                 });
         },
         fetchTags() {
-            fetch("/api/tags/" + JSON.stringify(this.post.tags)).then(
-                function (response) {
-                    return response.json();
-                }
-            ).then((payload) => {
-                this.tags = payload;
-            });
+            if (Boolean(this.post.tags) && this.post.tags.length > 0) {
+                fetch("/api/tags/" + JSON.stringify(this.post.tags)).then(
+                    function (response) {
+                        return response.json();
+                    }
+                ).then((payload) => {
+                    this.tags = payload;
+                });
+            }
         },
         populateChildren(commentsArray, rawArray) {
                 commentsArray.forEach(comment => {
