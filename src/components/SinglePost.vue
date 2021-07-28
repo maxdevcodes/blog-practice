@@ -14,7 +14,7 @@
                 <span class="comment-author">{{ comment.author }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
                 <div class="comment-buttons">
-                    <button class="simple-btn" @click="replyComment(comment.id)">Reply</button>
+                    <button class="simple-btn" @click="replyComment(comment.id, comment.author)">Reply</button>
                 </div>
                 <div
                     class="child-comment"
@@ -25,12 +25,13 @@
                     <span class="comment-author">{{ child.author }}</span>
                     <p class="comment-content">{{ child.comment }}</p>
                     <div class="comment-buttons">
-                        <button class="simple-btn" @click="replyComment(child.id)">Reply</button>
+                        <button class="simple-btn" @click="replyComment(child.id, child.author)">Reply</button>
                     </div>
                 </div>
             </div>
             <form class="add-comment-form" id="comment-form" action="#">
-                <!-- TO-DO: add reply to HTML elem to indicate reply (maybe add extract of comment) -->
+                <!-- TO-DO: add extract of comment being replied -->
+                <span class="comment-helper" v-if="replyHelper">Replying to: <strong>{{replyHelper}}</strong></span>
                 <label for="name">Name:</label>
                 <input
                     type="text"
@@ -62,6 +63,7 @@ export default {
             comments: [],
             newComment: {},
             tags: [],
+            replyHelper: null,
         };
     },
     created() {
@@ -123,6 +125,10 @@ export default {
             if (!this.newComment.hasOwnProperty('replyID')) {
                 this.newComment.replyID = null;
             }
+
+            if (this.replyHelper) {
+                this.replyHelper = null
+            }
             
             fetch("/api/comments/", {
                 method: "POST",
@@ -137,8 +143,11 @@ export default {
                     this.fetchComments();
                 });
         },
-        replyComment(parentID) {
+        replyComment(parentID, parentAuthor) {
             this.newComment.replyID = parentID;
+            this.replyHelper = parentAuthor;
+            // To-do: add number of comment to replyHelper
+            console.log("reply", this.newComment.replyID);
             document.getElementById('comment-form').scrollIntoView();
         }
     },
@@ -179,6 +188,10 @@ export default {
         margin-bottom: 0;
         padding-bottom: 0;
     }
+
+    .comment-content {
+        white-space: pre;
+    }
 }
 
 .comment-buttons {
@@ -189,6 +202,7 @@ export default {
 .simple-btn {
     background: none;
     border: none;
+    cursor: pointer;
     color: #25835a;
 }
 
