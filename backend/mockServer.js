@@ -94,6 +94,7 @@ var comments = [
         author: "John",
         comment: "Lorem ipsum dolor sit amet",
         replyID: null,
+        date: '2020-12-15T14:12:00',
     },
     {
         id: 1,
@@ -101,6 +102,7 @@ var comments = [
         author: "Anna",
         comment: "Lorem ipsum dolor sit amet",
         replyID: null,
+        date: '2020-05-04T14:12:00',
     },
     {
         id: 2,
@@ -108,6 +110,7 @@ var comments = [
         author: "Paul",
         comment: "Lorem ipsum dolor sit amet",
         replyID: 0,
+        date: '2021-01-10T14:12:00',
     },
     {
         id: 3,
@@ -115,6 +118,7 @@ var comments = [
         author: "Laura",
         comment: "Lorem ipsum dolor sit amet",
         replyID: 0,
+        date: '2021-01-25T14:12:00',
     },
 ];
 
@@ -194,6 +198,7 @@ const server = new Pretender(function () {
             author: body.name,
             comment: body.comment,
             replyID: body.replyID,
+            date: body.date,
         };
         comments.push(newComment);
         let response = { res: 'Added comment' };

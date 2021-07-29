@@ -12,9 +12,10 @@
         <div class="comments-container">
             <div class="comment" v-for="comment in comments" :key="comment.id">
                 <span class="comment-author">{{ comment.author }}</span>
+                <span class="comment-date">{{ new Date(comment.date).toDateString() }}</span>
                 <p class="comment-content">{{ comment.comment }}</p>
                 <div class="comment-buttons">
-                    <button class="simple-btn" @click="replyComment(comment.id, comment.author)">Reply</button>
+                    <button class="simple-btn" @click="replyComment(comment.id, comment.author, comment.comment)">Reply</button>
                 </div>
                 <div
                     class="child-comment"
@@ -23,15 +24,18 @@
                 >
                     <span class="comment-response">In response to <strong>{{getParent(child)}}</strong></span>
                     <span class="comment-author">{{ child.author }}</span>
+                    <span class="comment-date">{{ new Date(child.date).toDateString() }}</span>
                     <p class="comment-content">{{ child.comment }}</p>
                     <div class="comment-buttons">
-                        <button class="simple-btn" @click="replyComment(child.id, child.author)">Reply</button>
+                        <button class="simple-btn" @click="replyComment(child.id, child.author, child.comment)">Reply</button>
                     </div>
                 </div>
             </div>
             <form class="add-comment-form" id="comment-form" action="#">
-                <!-- TO-DO: add extract of comment being replied -->
-                <span class="comment-helper" v-if="replyHelper">Replying to: <strong>{{replyHelper}}</strong></span>
+                <div class="reply-container" v-if="replyHelper.author">
+                    <span class="comment-helper">Replying to: <strong>{{ replyHelper.author }}</strong></span>
+                    <p class="reply-excerpt">{{ replyHelper.comment }}</p>
+                </div>
                 <label for="name">Name:</label>
                 <input
                     type="text"
@@ -63,7 +67,10 @@ export default {
             comments: [],
             newComment: {},
             tags: [],
-            replyHelper: null,
+            replyHelper: {
+                author: '',
+                comment: null,
+            },
         };
     },
     created() {
@@ -122,12 +129,15 @@ export default {
         },
         postComment() {
             this.newComment.postID = this.post.id;
+            this.newComment.date = new Date();
+
             if (!this.newComment.hasOwnProperty('replyID')) {
                 this.newComment.replyID = null;
             }
 
-            if (this.replyHelper) {
-                this.replyHelper = null
+            if (this.replyHelper.author) {
+                this.replyHelper.author = '';
+                this.replyHelper.comment = null;
             }
             
             fetch("/api/comments/", {
@@ -143,11 +153,11 @@ export default {
                     this.fetchComments();
                 });
         },
-        replyComment(parentID, parentAuthor) {
+        replyComment(parentID, parentAuthor, parentComment) {
             this.newComment.replyID = parentID;
-            this.replyHelper = parentAuthor;
-            // To-do: add number of comment to replyHelper
-            console.log("reply", this.newComment.replyID);
+            this.replyHelper.author = parentAuthor;
+            this.replyHelper.comment = parentComment;
+            // To-do: add extract of comment to replyHelper
             document.getElementById('comment-form').scrollIntoView();
         }
     },
@@ -220,8 +230,20 @@ export default {
 
 .comment-author {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-weight: bold;
+}
+
+.comment-date {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.reply-container {
+    background: #eee;
+    padding: 15px 10px;
+    font-size: 14px;
 }
 
 .btn {
