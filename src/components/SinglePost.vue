@@ -35,6 +35,7 @@
                 <div class="reply-container" v-if="replyHelper.author">
                     <span class="comment-helper">Replying to: <strong>{{ replyHelper.author }}</strong></span>
                     <p class="reply-excerpt">{{ replyHelper.comment }}</p>
+                    <span class="cancel-reply"><button class="no-style-btn" @click="cancelReplyComment()"><img src="src/assets/images/close.png" alt="Cancel reply icon" srcset=""></button></span>
                 </div>
                 <label for="name">Name:</label>
                 <input
@@ -159,6 +160,13 @@ export default {
             this.replyHelper.comment = parentComment;
             // To-do: add extract of comment to replyHelper
             document.getElementById('comment-form').scrollIntoView();
+        },
+        cancelReplyComment() {
+            this.newComment = {};
+            this.replyHelper = {
+                author: '',
+                comment: null,
+            };
         }
     },
 };
@@ -244,6 +252,17 @@ export default {
     background: #eee;
     padding: 15px 10px;
     font-size: 14px;
+    position: relative;
+}
+
+.cancel-reply {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    img {
+        max-width: 18px;
+    }
 }
 
 .btn {

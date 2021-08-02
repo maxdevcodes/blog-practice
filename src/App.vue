@@ -45,6 +45,15 @@ a {
     color: #41b883;
 }
 
+.no-style-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .highlighted {
     color: #41b883;
 }
