@@ -4,7 +4,7 @@ import AppBlog from "@/pages/AppBlog.vue";
 import AppAbout from "@/pages/AppAbout.vue";
 import AppContact from "@/pages/AppContact.vue";
 import NotFound from "@/pages/NotFound.vue";
-import SinglePost from "@/components/SinglePost.vue";
+import AppSingle from '@/pages/AppSingle.vue';
 import AppAdminDashboard from "@/pages/AppAdminDashboard.vue";
 import AddPost from "@/components/AddPost.vue";
 import EditPost from "@/components/EditPost.vue";
@@ -18,7 +18,7 @@ const routes = [
     { path: "/blog", component: AppBlog, query: { page: 0 } },
     { path: "/about", component: AppAbout },
     { path: "/contact", component: AppContact },
-    { path: "/post/:id", component: SinglePost },
+    { path: "/post/:id", component: AppSingle },
     { path: "/admin", name: "admin", component: AppAdminDashboard, meta: { isAuth: true } },
     { path: "/login", component: AppLogin },
     { path: "/admin/addPost", component: AddPost, meta: { isAuth: true } },
